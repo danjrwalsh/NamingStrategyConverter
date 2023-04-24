@@ -60,7 +60,6 @@ public class UpperKebabCaseConversionTests
     {
         const string str = "this-was-kebab-case";
 
-        // Realistically this would never happen but test it anyways
         string result = str.ToUpperKebabCase(NamingStrategy.KebabCase);
 
         Assert.Equal("THIS-WAS-KEBAB-CASE", result);

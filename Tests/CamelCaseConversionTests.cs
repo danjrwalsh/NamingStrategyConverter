@@ -20,7 +20,6 @@ public class CamelCaseConversionTests
     {
         const string str = "ThisWasPascalCase";
 
-        // Realistically this would never happen but test it anyways
         string result = str.ToCamelCase(NamingStrategy.PascalCase);
 
         Assert.Equal("thisWasPascalCase", result);
