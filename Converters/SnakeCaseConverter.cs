@@ -1,0 +1,157 @@
+using System.Text;
+
+namespace DanWalsh.NamingStrategyConverter.Converters;
+
+public static class SnakeCaseConverter
+{
+    public static string ToSnakeCase(this string input, NamingStrategy namingStrategy = NamingStrategy.Unknown) =>
+        namingStrategy switch
+        {
+            NamingStrategy.PascalCase => input.ToSnakeCaseFromPascalOrCamel(),
+            NamingStrategy.CamelCase => input.ToSnakeCaseFromPascalOrCamel(),
+            NamingStrategy.KebabCase => input.ToSnakeCaseFromKebab(),
+            NamingStrategy.SnakeCase => input,
+            NamingStrategy.UpperKebabCase => input.ToSnakeCaseFromUpperKebabCase(),
+            NamingStrategy.UpperSnakeCase => input.ToSnakeCaseFromUpperSnakeCase(),
+            _ => input.ToSnakeCaseFromUnknown()
+        };
+
+    private static string ToSnakeCaseFromUnknown(this string input)
+    {
+        if (string.IsNullOrEmpty(input)) return input;
+
+        bool isSnakeCase = true;
+        bool isKebabCase = true;
+        bool isUpperCase = true;
+
+        foreach (char c in input)
+        {
+            bool isLowerChar = char.IsLower(c);
+
+            if (isSnakeCase && !isLowerChar && c != '_') isSnakeCase = false;
+            if (isKebabCase && !isLowerChar && c != '-') isKebabCase = false;
+            if (isUpperCase && isLowerChar && c is not ('_' or '-')) isUpperCase = false;
+
+            if (!isSnakeCase && !isUpperCase && !isKebabCase) break;
+        }
+
+        if (isSnakeCase) return input;
+
+        if (isKebabCase) return input.Replace('-', '_');
+
+        if (isUpperCase) return input.ToLowerInvariant().Replace('-', '_');
+
+        var snakeCaseStrBuilder = new StringBuilder(input.Length + 1);
+        snakeCaseStrBuilder.Append(char.ToLowerInvariant(input[0]));
+
+        for (int i = 1; i < input.Length; i++)
+        {
+            char currentChar = input[i];
+
+            if (currentChar == '-')
+            {
+                snakeCaseStrBuilder.Append('_');
+
+                continue;
+            }
+
+            if (char.IsUpper(currentChar)) snakeCaseStrBuilder.Append('_');
+
+            snakeCaseStrBuilder.Append(char.ToLowerInvariant(currentChar));
+        }
+
+        return snakeCaseStrBuilder.ToString();
+    }
+
+    public static string ToSnakeCaseFromPascalOrCamel(this string input)
+    {
+        if (string.IsNullOrEmpty(input)) return input;
+
+        int tokens = 0;
+
+        for (int i = 1; i < input.Length; i++)
+        {
+            char currentChar = input[i];
+
+            if (char.IsUpper(currentChar)) tokens++;
+        }
+
+        return string.Create(input.Length + tokens, input.ToCharArray(), (span, chars) =>
+        {
+            span[0] = char.ToLowerInvariant(chars[0]);
+            short spanIndex = 1;
+            for (int i = 1; i < chars.Length; i++)
+            {
+                char currentChar = chars[i];
+
+                if (char.IsUpper(currentChar))
+                {
+                    span[spanIndex++] = '_';
+                }
+
+                span[spanIndex++] = char.ToLowerInvariant(currentChar);
+            }
+        });
+    }
+
+    private static string ToSnakeCaseFromKebab(this string input)
+    {
+        if (string.IsNullOrEmpty(input)) return input;
+
+        return string.Create(input.Length, input.ToCharArray(), (strContent, charArray) =>
+        {
+            for (int i = 0; i < charArray.Length; i++)
+            {
+                strContent[i] = charArray[i] == '-' ? '_' : charArray[i];
+            }
+        });
+    }
+
+    private static string ToSnakeCaseFromUpperKebabCase(this string input) => input.ToLowerInvariant().Replace('-', '_');
+
+    private static string ToSnakeCaseFromUpperSnakeCase(this string input) => input.ToLowerInvariant();
+
+    public static string ToSnakeCaseChatGPTOptimized(this string input)
+    {
+        if (string.IsNullOrEmpty(input)) return input;
+
+        var builder = new StringBuilder(input.Length + 4); // adding extra capacity for possible underscores
+
+        bool wasUpperCase = false;
+        bool hasLowerCase = false;
+
+        foreach (char c in input)
+        {
+            if (c is '_' or '-')
+            {
+                builder.Append('_');
+                wasUpperCase = false;
+            }
+            else if (char.IsUpper(c))
+            {
+                if (!wasUpperCase && hasLowerCase) builder.Append('_');
+
+                builder.Append(char.ToLowerInvariant(c));
+                wasUpperCase = true;
+            }
+            else
+            {
+                builder.Append(c);
+                wasUpperCase = false;
+                hasLowerCase = true;
+            }
+        }
+
+        return builder.ToString();
+    }
+
+    public static bool IsSnakeCase(this string input)
+    {
+        foreach (char c in input)
+        {
+            if (!char.IsLower(c) && c != '_') return false;
+        }
+
+        return true;
+    }
+}

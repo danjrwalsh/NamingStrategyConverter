@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>NamingStrategyConverter</AssemblyName>
+        <RootNamespace>DanWalsh.NamingStrategyConverter.Converters</RootNamespace>
+        <PackageId>NamingStrategyConverter</PackageId>
+        <Authors>Dan Walsh</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="NamingStrategyConverter.Tests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Remove="NamingStrategyConverter.Tests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="NamingStrategyConverter.Tests\**" />
+    </ItemGroup>
+
+</Project>
