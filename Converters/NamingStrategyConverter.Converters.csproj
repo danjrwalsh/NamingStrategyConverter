@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>NamingStrategyConverter</AssemblyName>
         <RootNamespace>DanWalsh.NamingStrategyConverter.Converters</RootNamespace>
         <PackageId>NamingStrategyConverter</PackageId>
         <Authors>Dan Walsh</Authors>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
