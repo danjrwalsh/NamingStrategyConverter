@@ -25,7 +25,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Converters\NamingStrategyConverter.Converters.csproj" />
-      <ProjectReference Include="..\NamingStrategyConverter.csproj" />
     </ItemGroup>
 
 </Project>
