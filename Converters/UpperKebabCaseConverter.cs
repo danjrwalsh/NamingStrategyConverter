@@ -63,7 +63,7 @@ public static class UpperKebabCaseConverter
         return snakeCaseStrBuilder.ToString();
     }
 
-    public static string ToUpperKebabCaseFromPascalOrCamel(this string input)
+    private static string ToUpperKebabCaseFromPascalOrCamel(this string input)
     {
         if (string.IsNullOrEmpty(input)) return input;
 

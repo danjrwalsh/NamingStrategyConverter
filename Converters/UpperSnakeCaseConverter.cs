@@ -63,7 +63,7 @@ public static class UpperSnakeCaseConverter
         return snakeCaseStrBuilder.ToString();
     }
 
-    public static string ToUpperSnakeCaseFromPascalOrCamel(this string input)
+    private static string ToUpperSnakeCaseFromPascalOrCamel(this string input)
     {
         if (string.IsNullOrEmpty(input)) return input;
 

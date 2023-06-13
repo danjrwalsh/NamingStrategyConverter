@@ -63,7 +63,7 @@ public static class SnakeCaseConverter
         return snakeCaseStrBuilder.ToString();
     }
 
-    public static string ToSnakeCaseFromPascalOrCamel(this string input)
+    private static string ToSnakeCaseFromPascalOrCamel(this string input)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -110,40 +110,6 @@ public static class SnakeCaseConverter
     private static string ToSnakeCaseFromUpperKebabCase(this string input) => input.ToLowerInvariant().Replace('-', '_');
 
     private static string ToSnakeCaseFromUpperSnakeCase(this string input) => input.ToLowerInvariant();
-
-    public static string ToSnakeCaseChatGPTOptimized(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        var builder = new StringBuilder(input.Length + 4); // adding extra capacity for possible underscores
-
-        bool wasUpperCase = false;
-        bool hasLowerCase = false;
-
-        foreach (char c in input)
-        {
-            if (c is '_' or '-')
-            {
-                builder.Append('_');
-                wasUpperCase = false;
-            }
-            else if (char.IsUpper(c))
-            {
-                if (!wasUpperCase && hasLowerCase) builder.Append('_');
-
-                builder.Append(char.ToLowerInvariant(c));
-                wasUpperCase = true;
-            }
-            else
-            {
-                builder.Append(c);
-                wasUpperCase = false;
-                hasLowerCase = true;
-            }
-        }
-
-        return builder.ToString();
-    }
 
     public static bool IsSnakeCase(this string input)
     {
