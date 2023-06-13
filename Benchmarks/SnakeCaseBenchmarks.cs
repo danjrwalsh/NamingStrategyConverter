@@ -19,12 +19,6 @@ public class SnakeCaseBenchmarks
     }
 
     [Benchmark]
-    public void PascalToSnake_ChatGPT()
-    {
-        NamingStrategyExample.PascalCase.ToSnakeCaseChatGPTOptimized();
-    }
-    
-    [Benchmark]
     public void CamelToSnake()
     {
         NamingStrategyExample.CamelCase.ToSnakeCase();
@@ -34,12 +28,6 @@ public class SnakeCaseBenchmarks
     public void CamelToSnake_SpecifiedCamel()
     {
         NamingStrategyExample.CamelCase.ToSnakeCase(NamingStrategy.CamelCase);
-    }
-	
-    [Benchmark]
-    public void CamelToSnake_ChatGPT()
-    {
-        NamingStrategyExample.CamelCase.ToSnakeCaseChatGPTOptimized();
     }
 
     [Benchmark]
@@ -52,12 +40,6 @@ public class SnakeCaseBenchmarks
     public void KebabToSnake_SpecifiedKebab()
     {
         NamingStrategyExample.KebabCase.ToSnakeCase(NamingStrategy.KebabCase);
-    }
-    
-    [Benchmark]
-    public void KebabToSnake_ChatGPT()
-    {
-        NamingStrategyExample.KebabCase.ToSnakeCaseChatGPTOptimized();
     }
 
     [Benchmark]
@@ -73,12 +55,6 @@ public class SnakeCaseBenchmarks
     }
 
     [Benchmark]
-    public void SnakeToSnake_ChatGPT()
-    {
-        NamingStrategyExample.SnakeCase.ToSnakeCaseChatGPTOptimized();
-    }
-
-    [Benchmark]
     public void UpperSnakeToSnake()
     {
         NamingStrategyExample.ScreamingSnakeCase.ToSnakeCase();
@@ -91,12 +67,6 @@ public class SnakeCaseBenchmarks
     }
 
     [Benchmark]
-    public void UpperSnakeToSnake_ChatGPT()
-    {
-        NamingStrategyExample.ScreamingSnakeCase.ToSnakeCaseChatGPTOptimized();
-    }
-
-    [Benchmark]
     public void UpperKebabToSnake()
     {
         NamingStrategyExample.ScreamingKebabCase.ToSnakeCase();
@@ -106,11 +76,5 @@ public class SnakeCaseBenchmarks
     public void UpperKebabToSnake_SpecifiedUpperKebab()
     {
         NamingStrategyExample.ScreamingKebabCase.ToSnakeCase(NamingStrategy.UpperKebabCase);
-    }
-    
-    [Benchmark]
-    public void UpperKebabToSnake_ChatGPT()
-    {
-        NamingStrategyExample.ScreamingKebabCase.ToSnakeCaseChatGPTOptimized();
     }
 }
