@@ -18,6 +18,11 @@
         <Description>Naming strategy converter for .NET</Description>
         <PackageLicenseUrl>https://github.com/danjrwalsh/NamingStrategyConverter/blob/main/LICENSE</PackageLicenseUrl>
         <Version>1.1.0</Version>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
 
 </Project>
