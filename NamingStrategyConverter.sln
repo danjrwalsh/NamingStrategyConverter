@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamingStrategyConverter.Ben
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D6E05A82-460A-4263-8260-F5C9EEDBD97D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamingStrategyConverter.SystemTextJson", "src\NamingStrategyConverter.SystemTextJson\NamingStrategyConverter.SystemTextJson.csproj", "{33591802-B36E-436B-80BC-7C0A89EA0721}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamingStrategyConverter.SystemTextJson.Tests", "tests\NamingStrategyConverter.SystemTextJson.Tests\NamingStrategyConverter.SystemTextJson.Tests.csproj", "{360200C9-EB1F-43F9-B8F9-663B95E50ACF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,8 +30,17 @@ Global
 		{6F2F8EEE-CD1F-4865-982D-BF5FB49148F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F2F8EEE-CD1F-4865-982D-BF5FB49148F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F2F8EEE-CD1F-4865-982D-BF5FB49148F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33591802-B36E-436B-80BC-7C0A89EA0721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33591802-B36E-436B-80BC-7C0A89EA0721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33591802-B36E-436B-80BC-7C0A89EA0721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33591802-B36E-436B-80BC-7C0A89EA0721}.Release|Any CPU.Build.0 = Release|Any CPU
+		{360200C9-EB1F-43F9-B8F9-663B95E50ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{360200C9-EB1F-43F9-B8F9-663B95E50ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{360200C9-EB1F-43F9-B8F9-663B95E50ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{360200C9-EB1F-43F9-B8F9-663B95E50ACF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ABC04C2B-F31A-4441-A7BB-0CB8DBE4F95A} = {D6E05A82-460A-4263-8260-F5C9EEDBD97D}
+		{360200C9-EB1F-43F9-B8F9-663B95E50ACF} = {D6E05A82-460A-4263-8260-F5C9EEDBD97D}
 	EndGlobalSection
 EndGlobal
