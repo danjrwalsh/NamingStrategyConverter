@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using DanWalsh.NamingStrategyConverter.Constants;
+using Xunit;
 
 namespace DanWalsh.NamingStrategyConverter.Tests;
 
@@ -10,7 +11,7 @@ public class SnakeCaseConversionTests
         const string str = "ThisWasPascalCase";
 
         string result = str.ToSnakeCase();
-        
+
         Assert.Equal("this_was_pascal_case", result);
     }
 
@@ -23,7 +24,7 @@ public class SnakeCaseConversionTests
 
         Assert.Equal("this_was_pascal_case", result);
     }
-    
+
     [Fact]
     public void CamelCase_To_SnakeCase_General_ValidConversion()
     {

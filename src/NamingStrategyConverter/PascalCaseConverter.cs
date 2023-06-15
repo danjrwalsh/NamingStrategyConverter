@@ -1,3 +1,4 @@
+using DanWalsh.NamingStrategyConverter.Constants;
 using System.Text;
 
 namespace DanWalsh.NamingStrategyConverter;
@@ -21,17 +22,17 @@ public static class PascalCaseConverter
         if (string.IsNullOrEmpty(input)) return input;
 
         bool hasDelimiter = false;
-        
-        foreach(char c in input)
+
+        foreach (char c in input)
         {
-            if (c is '-' or '_')
+            if (c is Delimiters.Dash or Delimiters.Underscore)
             {
                 hasDelimiter = true;
 
                 break;
             }
         }
-        
+
         if (!hasDelimiter && char.IsUpper(input[0]) && !char.IsUpper(input[1])) return input;
 
         var snakeCaseStrBuilder = new StringBuilder(input.Length);
@@ -43,7 +44,7 @@ public static class PascalCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar is '_' or '-')
+            if (currentChar is Delimiters.Underscore or Delimiters.Dash)
             {
                 snakeCaseStrBuilder.Append(char.ToUpperInvariant(input[++i]));
 
@@ -88,7 +89,7 @@ public static class PascalCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '-') delimiters++;
+            if (currentChar == Delimiters.Dash) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -99,7 +100,7 @@ public static class PascalCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == '-' ? char.ToUpperInvariant(chars[++i]) : currentChar;
+                span[spanIndex++] = currentChar == Delimiters.Dash ? char.ToUpperInvariant(chars[++i]) : currentChar;
             }
         });
     }
@@ -114,7 +115,7 @@ public static class PascalCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '_') delimiters++;
+            if (currentChar == Delimiters.Underscore) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -125,7 +126,7 @@ public static class PascalCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == '_' ? char.ToUpperInvariant(chars[++i]) : currentChar;
+                span[spanIndex++] = currentChar == Delimiters.Underscore ? char.ToUpperInvariant(chars[++i]) : currentChar;
             }
         });
     }
@@ -140,7 +141,7 @@ public static class PascalCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '-') delimiters++;
+            if (currentChar == Delimiters.Dash) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -151,7 +152,7 @@ public static class PascalCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == '-' ? chars[++i] : char.ToLowerInvariant(currentChar);
+                span[spanIndex++] = currentChar == Delimiters.Dash ? chars[++i] : char.ToLowerInvariant(currentChar);
             }
         });
     }
@@ -166,7 +167,7 @@ public static class PascalCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '_') delimiters++;
+            if (currentChar == Delimiters.Underscore) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -177,7 +178,7 @@ public static class PascalCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == '_' ? chars[++i] : char.ToLowerInvariant(currentChar);
+                span[spanIndex++] = currentChar == Delimiters.Underscore ? chars[++i] : char.ToLowerInvariant(currentChar);
             }
         });
     }
@@ -188,7 +189,7 @@ public static class PascalCaseConverter
 
         for (int index = 1; index < input.Length; index++)
         {
-            if (input[index] is '-' or '_') return false;
+            if (input[index] is Delimiters.Dash or Delimiters.Underscore) return false;
         }
 
         return true;

@@ -1,10 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamingStrategyConverter.Converters", "Converters\NamingStrategyConverter.Converters.csproj", "{B93F52DC-E9E1-473C-85D0-21834A32D14F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamingStrategyConverter", "src\NamingStrategyConverter\NamingStrategyConverter.csproj", "{B93F52DC-E9E1-473C-85D0-21834A32D14F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamingStrategyConverter.Tests", "Tests\NamingStrategyConverter.Tests.csproj", "{ABC04C2B-F31A-4441-A7BB-0CB8DBE4F95A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamingStrategyConverter.Tests", "tests\NamingStrategyConverter.Tests\NamingStrategyConverter.Tests.csproj", "{ABC04C2B-F31A-4441-A7BB-0CB8DBE4F95A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamingStrategyConverter.Benchmarks", "Benchmarks\NamingStrategyConverter.Benchmarks.csproj", "{6F2F8EEE-CD1F-4865-982D-BF5FB49148F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamingStrategyConverter.Benchmarks", "src\NamingStrategyConverter.Benchmarks\NamingStrategyConverter.Benchmarks.csproj", "{6F2F8EEE-CD1F-4865-982D-BF5FB49148F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D6E05A82-460A-4263-8260-F5C9EEDBD97D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +26,8 @@ Global
 		{6F2F8EEE-CD1F-4865-982D-BF5FB49148F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F2F8EEE-CD1F-4865-982D-BF5FB49148F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F2F8EEE-CD1F-4865-982D-BF5FB49148F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ABC04C2B-F31A-4441-A7BB-0CB8DBE4F95A} = {D6E05A82-460A-4263-8260-F5C9EEDBD97D}
 	EndGlobalSection
 EndGlobal

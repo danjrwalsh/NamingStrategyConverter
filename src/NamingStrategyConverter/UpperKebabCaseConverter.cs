@@ -1,3 +1,4 @@
+using DanWalsh.NamingStrategyConverter.Constants;
 using System.Text;
 
 namespace DanWalsh.NamingStrategyConverter;
@@ -28,9 +29,9 @@ public static class UpperKebabCaseConverter
         {
             bool isLowerChar = char.IsLower(c);
 
-            if (isSnakeCase && !isLowerChar && c != '_') isSnakeCase = false;
-            if (isKebabCase && !isLowerChar && c != '-') isKebabCase = false;
-            if (isUpperCase && isLowerChar && c is not ('_' or '-')) isUpperCase = false;
+            if (isSnakeCase && !isLowerChar && c != Delimiters.Underscore) isSnakeCase = false;
+            if (isKebabCase && !isLowerChar && c != Delimiters.Dash) isKebabCase = false;
+            if (isUpperCase && isLowerChar && c is not (Delimiters.Underscore or Delimiters.Dash)) isUpperCase = false;
 
             if (!isSnakeCase && !isUpperCase && !isKebabCase) break;
         }
@@ -48,14 +49,14 @@ public static class UpperKebabCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '_')
+            if (currentChar == Delimiters.Underscore)
             {
-                snakeCaseStrBuilder.Append('-');
+                snakeCaseStrBuilder.Append(Delimiters.Dash);
 
                 continue;
             }
 
-            if (char.IsUpper(currentChar)) snakeCaseStrBuilder.Append('-');
+            if (char.IsUpper(currentChar)) snakeCaseStrBuilder.Append(Delimiters.Dash);
 
             snakeCaseStrBuilder.Append(char.ToUpperInvariant(currentChar));
         }
@@ -80,14 +81,12 @@ public static class UpperKebabCaseConverter
         {
             span[0] = char.ToUpperInvariant(chars[0]);
             short spanIndex = 1;
+
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
 
-                if (char.IsUpper(currentChar))
-                {
-                    span[spanIndex++] = '-';
-                }
+                if (char.IsUpper(currentChar)) span[spanIndex++] = Delimiters.Dash;
 
                 span[spanIndex++] = char.ToUpperInvariant(currentChar);
             }
@@ -96,15 +95,15 @@ public static class UpperKebabCaseConverter
 
     private static string ToUpperKebabCaseFromKebab(this string input) => input.ToUpperInvariant();
 
-    private static string ToUpperKebabCaseFromUpperSnakeCase(this string input) => input.Replace('_', '-');
+    private static string ToUpperKebabCaseFromUpperSnakeCase(this string input) => input.Replace(Delimiters.Underscore, Delimiters.Dash);
 
-    private static string ToUpperKebabCaseFromSnakeCase(this string input) => input.ToUpperInvariant().Replace('_', '-');
+    private static string ToUpperKebabCaseFromSnakeCase(this string input) => input.ToUpperInvariant().Replace(Delimiters.Underscore, Delimiters.Dash);
 
     public static bool IsUpperKebabCase(this string input)
     {
         foreach (char c in input)
         {
-            if (!char.IsUpper(c) && c != '-') return false;
+            if (!char.IsUpper(c) && c != Delimiters.Dash) return false;
         }
 
         return true;

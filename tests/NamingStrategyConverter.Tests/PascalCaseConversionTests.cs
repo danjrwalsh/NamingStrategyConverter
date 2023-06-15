@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using DanWalsh.NamingStrategyConverter.Constants;
+using Xunit;
 
 namespace DanWalsh.NamingStrategyConverter.Tests;
 
@@ -10,7 +11,7 @@ public class PascalCaseConversionTests
         const string str = "ThisWasPascalCase";
 
         string result = str.ToPascalCase();
-        
+
         Assert.Equal("ThisWasPascalCase", result);
     }
 
@@ -24,7 +25,7 @@ public class PascalCaseConversionTests
 
         Assert.Equal("ThisWasPascalCase", result);
     }
-    
+
     [Fact]
     public void CamelCase_To_PascalCase_General_ValidConversion()
     {

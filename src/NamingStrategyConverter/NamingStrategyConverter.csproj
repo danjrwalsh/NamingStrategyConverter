@@ -19,16 +19,4 @@
         <PackageLicenseUrl>https://github.com/danjrwalsh/NamingStrategyConverter/blob/main/LICENSE</PackageLicenseUrl>
     </PropertyGroup>
 
-    <ItemGroup>
-        <Compile Remove="NamingStrategyConverter.Tests\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Remove="NamingStrategyConverter.Tests\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="NamingStrategyConverter.Tests\**" />
-    </ItemGroup>
-
 </Project>

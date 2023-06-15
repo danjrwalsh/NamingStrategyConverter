@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Attributes;
+using DanWalsh.NamingStrategyConverter.Constants;
 
 namespace DanWalsh.NamingStrategyConverter.Benchmarks;
 
@@ -28,7 +29,7 @@ public class KebabCaseBenchmarks
     {
         NamingStrategyExample.CamelCase.ToKebabCase(NamingStrategy.CamelCase);
     }
-    
+
     [Benchmark]
     public void KebabToKebab()
     {
@@ -52,7 +53,7 @@ public class KebabCaseBenchmarks
     {
         NamingStrategyExample.SnakeCase.ToKebabCase(NamingStrategy.SnakeCase);
     }
-    
+
     [Benchmark]
     public void UpperSnakeToKebab()
     {

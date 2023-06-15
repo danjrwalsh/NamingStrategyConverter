@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Attributes;
+using DanWalsh.NamingStrategyConverter.Constants;
 
 namespace DanWalsh.NamingStrategyConverter.Benchmarks;
 

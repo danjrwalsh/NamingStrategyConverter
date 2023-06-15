@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Attributes;
+using DanWalsh.NamingStrategyConverter.Constants;
 
 namespace DanWalsh.NamingStrategyConverter.Benchmarks;
 
@@ -28,7 +29,7 @@ public class PascalCaseBenchmarks
     {
         NamingStrategyExample.CamelCase.ToPascalCase(NamingStrategy.CamelCase);
     }
-    
+
     [Benchmark]
     public void KebabToPascal()
     {
@@ -52,7 +53,7 @@ public class PascalCaseBenchmarks
     {
         NamingStrategyExample.SnakeCase.ToPascalCase(NamingStrategy.SnakeCase);
     }
-    
+
     [Benchmark]
     public void UpperSnakeToPascal()
     {

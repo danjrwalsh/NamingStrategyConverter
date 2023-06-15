@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using DanWalsh.NamingStrategyConverter.Constants;
+using Xunit;
 
 namespace DanWalsh.NamingStrategyConverter.Tests;
 
@@ -10,7 +11,7 @@ public class KebabCaseConversionTests
         const string str = "ThisWasPascalCase";
 
         string result = str.ToKebabCase();
-        
+
         Assert.Equal("this-was-pascal-case", result);
     }
 
@@ -23,7 +24,7 @@ public class KebabCaseConversionTests
 
         Assert.Equal("this-was-pascal-case", result);
     }
-    
+
     [Fact]
     public void CamelCase_To_KebabCase_General_ValidConversion()
     {

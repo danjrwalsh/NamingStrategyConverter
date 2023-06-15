@@ -1,3 +1,4 @@
+using DanWalsh.NamingStrategyConverter.Constants;
 using System.Text;
 
 namespace DanWalsh.NamingStrategyConverter;
@@ -28,18 +29,18 @@ public static class SnakeCaseConverter
         {
             bool isLowerChar = char.IsLower(c);
 
-            if (isSnakeCase && !isLowerChar && c != '_') isSnakeCase = false;
-            if (isKebabCase && !isLowerChar && c != '-') isKebabCase = false;
-            if (isUpperCase && isLowerChar && c is not ('_' or '-')) isUpperCase = false;
+            if (isSnakeCase && !isLowerChar && c != Delimiters.Underscore) isSnakeCase = false;
+            if (isKebabCase && !isLowerChar && c != Delimiters.Dash) isKebabCase = false;
+            if (isUpperCase && isLowerChar && c is not (Delimiters.Underscore or Delimiters.Dash)) isUpperCase = false;
 
             if (!isSnakeCase && !isUpperCase && !isKebabCase) break;
         }
 
         if (isSnakeCase) return input;
 
-        if (isKebabCase) return input.Replace('-', '_');
+        if (isKebabCase) return input.Replace(Delimiters.Dash, Delimiters.Underscore);
 
-        if (isUpperCase) return input.ToLowerInvariant().Replace('-', '_');
+        if (isUpperCase) return input.ToLowerInvariant().Replace(Delimiters.Dash, Delimiters.Underscore);
 
         var snakeCaseStrBuilder = new StringBuilder(input.Length + 1);
         snakeCaseStrBuilder.Append(char.ToLowerInvariant(input[0]));
@@ -48,14 +49,14 @@ public static class SnakeCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '-')
+            if (currentChar == Delimiters.Dash)
             {
-                snakeCaseStrBuilder.Append('_');
+                snakeCaseStrBuilder.Append(Delimiters.Underscore);
 
                 continue;
             }
 
-            if (char.IsUpper(currentChar)) snakeCaseStrBuilder.Append('_');
+            if (char.IsUpper(currentChar)) snakeCaseStrBuilder.Append(Delimiters.Underscore);
 
             snakeCaseStrBuilder.Append(char.ToLowerInvariant(currentChar));
         }
@@ -80,14 +81,12 @@ public static class SnakeCaseConverter
         {
             span[0] = char.ToLowerInvariant(chars[0]);
             short spanIndex = 1;
+
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
 
-                if (char.IsUpper(currentChar))
-                {
-                    span[spanIndex++] = '_';
-                }
+                if (char.IsUpper(currentChar)) span[spanIndex++] = Delimiters.Underscore;
 
                 span[spanIndex++] = char.ToLowerInvariant(currentChar);
             }
@@ -102,12 +101,12 @@ public static class SnakeCaseConverter
         {
             for (int i = 0; i < charArray.Length; i++)
             {
-                strContent[i] = charArray[i] == '-' ? '_' : charArray[i];
+                strContent[i] = charArray[i] == Delimiters.Dash ? Delimiters.Underscore : charArray[i];
             }
         });
     }
 
-    private static string ToSnakeCaseFromUpperKebabCase(this string input) => input.ToLowerInvariant().Replace('-', '_');
+    private static string ToSnakeCaseFromUpperKebabCase(this string input) => input.ToLowerInvariant().Replace(Delimiters.Dash, Delimiters.Underscore);
 
     private static string ToSnakeCaseFromUpperSnakeCase(this string input) => input.ToLowerInvariant();
 
@@ -115,7 +114,7 @@ public static class SnakeCaseConverter
     {
         foreach (char c in input)
         {
-            if (!char.IsLower(c) && c != '_') return false;
+            if (!char.IsLower(c) && c != Delimiters.Underscore) return false;
         }
 
         return true;

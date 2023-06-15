@@ -1,3 +1,4 @@
+using DanWalsh.NamingStrategyConverter.Constants;
 using System.Text;
 
 namespace DanWalsh.NamingStrategyConverter;
@@ -29,7 +30,7 @@ public static class CamelCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar is '_' or '-')
+            if (currentChar is Delimiters.Underscore or Delimiters.Dash)
             {
                 snakeCaseStrBuilder.Append(char.ToUpperInvariant(input[++i]));
 
@@ -72,7 +73,7 @@ public static class CamelCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '-') delimiters++;
+            if (currentChar == Delimiters.Dash) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -83,7 +84,7 @@ public static class CamelCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == '-' ? char.ToUpperInvariant(chars[++i]) : currentChar;
+                span[spanIndex++] = currentChar == Delimiters.Dash ? char.ToUpperInvariant(chars[++i]) : currentChar;
             }
         });
     }
@@ -98,7 +99,7 @@ public static class CamelCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '_') delimiters++;
+            if (currentChar == Delimiters.Underscore) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -109,7 +110,7 @@ public static class CamelCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == '_' ? char.ToUpperInvariant(chars[++i]) : currentChar;
+                span[spanIndex++] = currentChar == Delimiters.Underscore ? char.ToUpperInvariant(chars[++i]) : currentChar;
             }
         });
     }
@@ -124,7 +125,7 @@ public static class CamelCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '-') delimiters++;
+            if (currentChar == Delimiters.Dash) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -135,7 +136,7 @@ public static class CamelCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == '-' ? chars[++i] : char.ToLowerInvariant(currentChar);
+                span[spanIndex++] = currentChar == Delimiters.Dash ? chars[++i] : char.ToLowerInvariant(currentChar);
             }
         });
     }
@@ -150,7 +151,7 @@ public static class CamelCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == '_') delimiters++;
+            if (currentChar == Delimiters.Underscore) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -161,7 +162,7 @@ public static class CamelCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == '_' ? chars[++i] : char.ToLowerInvariant(currentChar);
+                span[spanIndex++] = currentChar == Delimiters.Underscore ? chars[++i] : char.ToLowerInvariant(currentChar);
             }
         });
     }
@@ -172,7 +173,7 @@ public static class CamelCaseConverter
 
         for (int index = 1; index < input.Length; index++)
         {
-            if (input[index] is '-' or '_') return false;
+            if (input[index] is Delimiters.Dash or Delimiters.Underscore) return false;
         }
 
         return true;

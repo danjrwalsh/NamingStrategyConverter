@@ -1,4 +1,4 @@
-namespace DanWalsh.NamingStrategyConverter;
+namespace DanWalsh.NamingStrategyConverter.Constants;
 
 public enum NamingStrategy
 {
