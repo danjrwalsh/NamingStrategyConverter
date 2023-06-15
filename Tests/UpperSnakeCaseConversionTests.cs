@@ -1,5 +1,4 @@
-﻿using DanWalsh.NamingStrategyConverter.Converters;
-using Xunit;
+﻿using Xunit;
 
 namespace DanWalsh.NamingStrategyConverter.Tests;
 

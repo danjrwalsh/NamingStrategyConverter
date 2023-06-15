@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace DanWalsh.NamingStrategyConverter.Converters;
+namespace DanWalsh.NamingStrategyConverter;
 
 public static class UpperKebabCaseConverter
 {
