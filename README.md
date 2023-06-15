@@ -38,6 +38,23 @@ Console.WriteLine(str.IsSnakeCase());
 // output: false
 ```
 
+### System.Text.Json
+`JsonNamingPolicy` implementations for all our converters are available to use with `System.Text.Json` for json 
+property name conversion. This can be used in conjunction with the `JsonSerializerOptions` class to configure the 
+naming policy for serialization and deserialization.
+```cs
+using DanWalsh.NamingStrategyConverter.SystemTextJson;
+
+var options = new JsonSerializerOptions
+{
+    PropertyNamingPolicy = new SnakeCaseNamingPolicy()
+};
+
+var json = JsonSerializer.Serialize(new { MyProperty = "value" }, options);
+Console.WriteLine(json);
+// output: {"my_property":"value"}
+```
+
 ## Contribute
 We greatly appreciate contributions from the community. We welcome any performance enhancements, bug corrections, or the introduction of new naming strategies. If you have such contributions, kindly submit a PR for our evaluation. It's worth noting that every naming strategy in this project comes with its own set of unit tests. Thus, when introducing a new strategy, we ask that you include comprehensive tests for each conversion from one strategy to another. Additionally, if you're proposing performance improvements, kindly confirm that you've conducted benchmark tests to verify the efficacy of your suggested changes.
 
