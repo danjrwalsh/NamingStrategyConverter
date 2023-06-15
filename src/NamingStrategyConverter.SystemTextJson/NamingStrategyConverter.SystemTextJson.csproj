@@ -17,11 +17,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.Text.Json" Version="7.0.3" />
+        <PackageReference Include="System.Text.Json" Version="7.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\NamingStrategyConverter\NamingStrategyConverter.csproj" />
+        <ProjectReference Include="..\NamingStrategyConverter\NamingStrategyConverter.csproj" />
     </ItemGroup>
 
 </Project>
