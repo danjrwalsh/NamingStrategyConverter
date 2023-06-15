@@ -1,4 +1,8 @@
 # NamingStrategyConverter.NET
+
+[![Build](https://github.com/danjrwalsh/NamingStrategyConverter/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/danjrwalsh/NamingStrategyConverter/actions/workflows/build-and-test.yml)
+[![Release](https://github.com/danjrwalsh/NamingStrategyConverter/actions/workflows/release.yml/badge.svg)](https://github.com/danjrwalsh/NamingStrategyConverter/actions/workflows/release.yml)
+
 An open source, dead simple naming strategy converter library for .NET. Dependency free, no inheritance, no 
 reflection, no magic. Just KISS conversions.
 
