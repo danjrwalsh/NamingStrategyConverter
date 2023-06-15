@@ -2,7 +2,7 @@
 
 namespace DanWalsh.NamingStrategyConverter.SystemTextJson;
 
-public class UpperSnakeCaseNamingPolicy : JsonNamingPolicy
+public class UpperSnakeCaseJsonNamingPolicy : JsonNamingPolicy
 {
     public override string ConvertName(string name) => name.ToUpperSnakeCase();
 }

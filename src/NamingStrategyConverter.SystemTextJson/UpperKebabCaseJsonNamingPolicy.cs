@@ -2,7 +2,7 @@
 
 namespace DanWalsh.NamingStrategyConverter.SystemTextJson;
 
-public class UpperKebabCaseNamingPolicy : JsonNamingPolicy
+public class UpperKebabCaseJsonNamingPolicy : JsonNamingPolicy
 {
     public override string ConvertName(string name) => name.ToUpperKebabCase();
 }

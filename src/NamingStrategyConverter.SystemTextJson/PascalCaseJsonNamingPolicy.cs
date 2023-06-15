@@ -2,7 +2,7 @@
 
 namespace DanWalsh.NamingStrategyConverter.SystemTextJson;
 
-public class PascalCaseNamingPolicy : JsonNamingPolicy
+public class PascalCaseJsonNamingPolicy : JsonNamingPolicy
 {
     public override string ConvertName(string name) => name.ToPascalCase();
 }
