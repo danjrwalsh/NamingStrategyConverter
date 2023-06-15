@@ -1,5 +1,6 @@
 # NamingStrategyConverter.NET
-An open source naming strategy converter library for .NET Standard.
+An open source, dead simple naming strategy converter library for .NET. Dependency free, no inheritance, no 
+reflection, no magic. Just KISS conversions.
 
 The following naming strategies are currently supported:
 - PascalCase
