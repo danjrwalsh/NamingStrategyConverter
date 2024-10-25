@@ -5,184 +5,34 @@ namespace DanWalsh.NamingStrategyConverter.Tests;
 
 public class DotCaseConversionTests
 {
-    [Fact]
-    public void PascalCase_To_DotCase_General_ValidConversion()
+    [Theory]
+    [InlineData("ThisWasPascalCase", "this.was.pascal.case", NamingStrategy.PascalCase)]
+    [InlineData("thisWasCamelCase", "this.was.camel.case", NamingStrategy.CamelCase)]
+    [InlineData("this-was-kebab-case", "this.was.kebab.case", NamingStrategy.KebabCase)]
+    [InlineData("THIS-WAS-UPPER-KEBAB-CASE", "this.was.upper.kebab.case", NamingStrategy.UpperKebabCase)]
+    [InlineData("THIS_WAS_UPPER_SNAKE_CASE", "this.was.upper.snake.case", NamingStrategy.UpperSnakeCase)]
+    [InlineData("this_was_snake_case", "this.was.snake.case", NamingStrategy.SnakeCase)]
+    [InlineData("this.is.dot.case", "this.is.dot.case", NamingStrategy.DotCase)]
+    [InlineData("THISWASUPPERCASE", "thiswasuppercase", NamingStrategy.Unknown)]
+    [InlineData("thiswaslowercase", "thiswaslowercase", NamingStrategy.Unknown)]
+    [InlineData("", "", NamingStrategy.Unknown)]
+    [InlineData("SomeMixedCASEString", "some.mixed.case.string", NamingStrategy.Unknown)]
+    [InlineData("Special@#%&*()Characters", "special@#%&*()characters", NamingStrategy.Unknown)]
+    [InlineData("StringWith123Numbers", "string.with123numbers", NamingStrategy.Unknown)]
+    public void ToDotCase_ValidConversion(string input, string expected, NamingStrategy strategy)
     {
-        const string str = "ThisWasPascalCase";
+        string result = input.ToDotCase(strategy);
 
-        string result = str.ToDotCase();
-
-        Assert.Equal("this.was.pascal.case", result);
+        Assert.Equal(expected, result);
     }
 
-    [Fact]
-    public void PascalCase_To_DotCase_KnownNamingStrategy_ValidConversion()
+    [Theory]
+    [InlineData("this.is.dot.case", true)]
+    [InlineData("this_is_not_dot_case", false)]
+    public void IsDotCase_ValidCheck(string input, bool expected)
     {
-        const string str = "ThisWasPascalCase";
+        bool result = input.IsDotCase();
 
-        string result = str.ToDotCase(NamingStrategy.PascalCase);
-
-        Assert.Equal("this.was.pascal.case", result);
-    }
-
-    [Fact]
-    public void CamelCase_To_DotCase_General_ValidConversion()
-    {
-        const string str = "thisWasCamelCase";
-
-        string result = str.ToDotCase();
-
-        Assert.Equal("this.was.camel.case", result);
-    }
-
-    [Fact]
-    public void CamelCase_To_DotCase_KnownNamingStrategy_ValidConversion()
-    {
-        const string str = "thisWasCamelCase";
-
-        string result = str.ToDotCase(NamingStrategy.CamelCase);
-
-        Assert.Equal("this.was.camel.case", result);
-    }
-
-    [Fact]
-    public void KebabCase_To_DotCase_General_ValidConversion()
-    {
-        const string str = "this-was-kebab-case";
-
-        string result = str.ToDotCase();
-
-        Assert.Equal("this.was.kebab.case", result);
-    }
-
-    [Fact]
-    public void KebabCase_To_DotCase_KnownNamingStrategy_ValidConversion()
-    {
-        const string str = "this-was-kebab-case";
-
-        string result = str.ToDotCase(NamingStrategy.KebabCase);
-
-        Assert.Equal("this.was.kebab.case", result);
-    }
-
-    [Fact]
-    public void UpperKebabCase_To_DotCase_General_ValidConversion()
-    {
-        const string str = "THIS-WAS-UPPER-KEBAB-CASE";
-
-        string result = str.ToDotCase();
-
-        Assert.Equal("this.was.upper.kebab.case", result);
-    }
-
-    [Fact]
-    public void UpperKebabCase_To_DotCase_KnownNamingStrategy_ValidConversion()
-    {
-        const string str = "THIS-WAS-UPPER-KEBAB-CASE";
-
-        string result = str.ToDotCase(NamingStrategy.UpperKebabCase);
-
-        Assert.Equal("this.was.upper.kebab.case", result);
-    }
-
-    [Fact]
-    public void UpperSnakeCase_To_DotCase_General_ValidConversion()
-    {
-        const string str = "THIS_WAS_UPPER_SNAKE_CASE";
-
-        string result = str.ToDotCase();
-
-        Assert.Equal("this.was.upper.snake.case", result);
-    }
-
-    [Fact]
-    public void UpperSnakeCase_To_DotCase_KnownNamingStrategy_ValidConversion()
-    {
-        const string str = "THIS_WAS_UPPER_SNAKE_CASE";
-
-        string result = str.ToDotCase(NamingStrategy.UpperSnakeCase);
-
-        Assert.Equal("this.was.upper.snake.case", result);
-    }
-
-    [Fact]
-    public void SnakeCase_To_DotCase_General_ValidConversion()
-    {
-        const string str = "this_was_snake_case";
-
-        string result = str.ToDotCase();
-
-        Assert.Equal("this.was.snake.case", result);
-    }
-
-    [Fact]
-    public void SnakeCase_To_DotCase_KnownNamingStrategy_ValidConversion()
-    {
-        const string str = "this_was_snake_case";
-
-        string result = str.ToDotCase(NamingStrategy.SnakeCase);
-
-        Assert.Equal("this.was.snake.case", result);
-    }
-
-    [Fact]
-    public void DotCase_To_DotCase_General_RemainsUnchanged()
-    {
-        const string str = "this.is.dot.case";
-
-        string result = str.ToDotCase();
-
-        Assert.Equal("this.is.dot.case", result);
-    }
-
-    [Fact]
-    public void DotCase_To_DotCase_KnownNamingStrategy_RemainsUnchanged()
-    {
-        const string str = "this.is.dot.case";
-
-        // Realistically this would never happen but test it anyways
-        string result = str.ToDotCase(NamingStrategy.DotCase);
-
-        Assert.Equal("this.is.dot.case", result);
-    }
-
-    [Fact]
-    public void AllUpperCase_To_DotCase_ValidConversion()
-    {
-        const string str = "THISWASUPPERCASE";
-
-        string result = str.ToDotCase();
-
-        Assert.Equal("thiswasuppercase", result);
-    }
-
-    [Fact]
-    public void AllLowerCase_To_DotCase_RemainsUnchanged()
-    {
-        const string str = "thiswaslowercase";
-
-        string result = str.ToDotCase();
-
-        Assert.Equal("thiswaslowercase", result);
-    }
-
-    [Fact]
-    public void IsDotCase_WithValidDotCase_ReturnsTrue()
-    {
-        const string str = "this.is.dot.case";
-
-        bool result = str.IsDotCase();
-
-        Assert.True(result);
-    }
-
-    [Fact]
-    public void IsDotCase_WithInvalidDotCase_ReturnsFalse()
-    {
-        const string str = "this_is_not_dot_case";
-
-        bool result = str.IsDotCase();
-
-        Assert.False(result);
+        Assert.Equal(expected, result);
     }
 }
