@@ -12,34 +12,44 @@ public sealed class KebabCaseJsonConversionTests
         _options = new JsonSerializerOptions { PropertyNamingPolicy = new KebabCaseJsonNamingPolicy() };
     }
 
-    [Fact]
-    public void Serialize_ToKebabCasePropertyNames()
+    [Theory]
+    [InlineData("test-property", "someValue")]
+    [InlineData("test_property", null)]
+    [InlineData("test-property", "")]
+    [InlineData("test-property", "SomeMixedCASEString")]
+    [InlineData("test-property", "Special@#%&*()Characters")]
+    [InlineData("test-property", "StringWith123Numbers")]
+    public void Serialize_ToKebabCasePropertyNames(string propertyName, string propertyValue)
     {
-        var testData = new TestData();
+        var testData = new TestData(propertyValue);
 
         string json = JsonSerializer.Serialize(testData, _options);
 
-        Assert.Contains("test-property", json);
-        Assert.DoesNotContain("testProperty", json);
+        Assert.Contains(propertyName, json);
+        if (propertyValue != null)
+        {
+            Assert.Contains(propertyValue, json);
+        }
+        else
+        {
+            Assert.Contains("null", json);
+        }
     }
 
-    [Fact]
-    public void Deserialize_FromKebabCasePropertyNames()
+    [Theory]
+    [InlineData("""{ "test-property": "someValue" }""", "someValue")]
+    [InlineData("""{ "test_property": "someValue" }""", null)]
+    public void Deserialize_FromKebabCasePropertyNames(string json, string expectedValue)
     {
-        const string json = """{ "test-property": "someValue" }""";
-
         var result = JsonSerializer.Deserialize<TestData>(json, _options);
 
-        Assert.Equal("someValue", result!.TestProperty);
-    }
-
-    [Fact]
-    public void DeserializeFails_FromSnakeCasePropertyNames_ExpectedKebab()
-    {
-        const string json = """{ "test_property": "someValue" }""";
-
-        var result = JsonSerializer.Deserialize<TestData>(json, _options);
-
-        Assert.NotEqual("someValue", result!.TestProperty);
+        if (expectedValue != null)
+        {
+            Assert.Equal(expectedValue, result!.TestProperty);
+        }
+        else
+        {
+            Assert.NotEqual("someValue", result!.TestProperty);
+        }
     }
 }
