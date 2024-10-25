@@ -12,28 +12,70 @@ public sealed class DotCaseJsonConversionTests
         _options = new JsonSerializerOptions { PropertyNamingPolicy = new DotCaseJsonNamingPolicy() };
     }
 
-    [Theory]
-    [InlineData("test.property", "someValue")]
-    [InlineData("test_property", null)]
-    [InlineData("test.property", "")]
-    [InlineData("test.property", "SomeMixedCASEString")]
-    [InlineData("test.property", "Special@#%&*()Characters")]
-    [InlineData("test.property", "StringWith123Numbers")]
-    public void Serialize_ToDotCasePropertyNames(string propertyName, string propertyValue)
+    [Fact]
+    public void Serialize_ToDotCasePropertyNames_SomeValue()
     {
-        var testData = new TestData(propertyValue);
+        var testData = new TestData("someValue");
 
         string json = JsonSerializer.Serialize(testData, _options);
 
-        Assert.Contains(propertyName, json);
-        if (propertyValue != null)
-        {
-            Assert.Contains(propertyValue, json);
-        }
-        else
-        {
-            Assert.Contains("null", json);
-        }
+        Assert.Contains("test.property", json);
+        Assert.Contains("someValue", json);
+    }
+
+    [Fact]
+    public void Serialize_ToDotCasePropertyNames_Null()
+    {
+        var testData = new TestData(null);
+
+        string json = JsonSerializer.Serialize(testData, _options);
+
+        Assert.Contains("test.property", json);
+        Assert.Contains("null", json);
+    }
+
+    [Fact]
+    public void Serialize_ToDotCasePropertyNames_EmptyString()
+    {
+        var testData = new TestData("");
+
+        string json = JsonSerializer.Serialize(testData, _options);
+
+        Assert.Contains("test.property", json);
+        Assert.Contains("\"\"", json);
+    }
+
+    [Fact]
+    public void Serialize_ToDotCasePropertyNames_MixedCaseString()
+    {
+        var testData = new TestData("SomeMixedCASEString");
+
+        string json = JsonSerializer.Serialize(testData, _options);
+
+        Assert.Contains("test.property", json);
+        Assert.Contains("SomeMixedCASEString", json);
+    }
+
+    [Fact]
+    public void Serialize_ToDotCasePropertyNames_SpecialCharacters()
+    {
+        var testData = new TestData("Special@#%&*()Characters");
+
+        string json = JsonSerializer.Serialize(testData, _options);
+
+        Assert.Contains("test.property", json);
+        Assert.Contains("Special@#%&*()Characters", json);
+    }
+
+    [Fact]
+    public void Serialize_ToDotCasePropertyNames_Numbers()
+    {
+        var testData = new TestData("StringWith123Numbers");
+
+        string json = JsonSerializer.Serialize(testData, _options);
+
+        Assert.Contains("test.property", json);
+        Assert.Contains("StringWith123Numbers", json);
     }
 
     [Theory]

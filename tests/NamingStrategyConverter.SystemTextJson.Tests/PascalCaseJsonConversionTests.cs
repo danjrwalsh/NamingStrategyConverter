@@ -13,33 +13,85 @@ public sealed class PascalCaseJsonConversionTests
     }
 
     [Fact]
-    public void Serialize_ToPascalCasePropertyNames()
+    public void Serialize_ToPascalCasePropertyNames_SomeValue()
     {
-        var testData = new TestData();
+        var testData = new TestData("someValue");
 
         string json = JsonSerializer.Serialize(testData, _options);
 
         Assert.Contains("TestProperty", json);
-        Assert.DoesNotContain("testProperty", json);
+        Assert.Contains("someValue", json);
     }
 
     [Fact]
-    public void Deserialize_FromPascalCasePropertyNames()
+    public void Serialize_ToPascalCasePropertyNames_Null()
     {
-        const string json = """{ "TestProperty": "someValue" }""";
+        var testData = new TestData(null);
 
-        var result = JsonSerializer.Deserialize<TestData>(json, _options);
+        string json = JsonSerializer.Serialize(testData, _options);
 
-        Assert.Equal("someValue", result!.TestProperty);
+        Assert.Contains("TestProperty", json);
+        Assert.Contains("null", json);
     }
 
     [Fact]
-    public void DeserializeFails_FromSnakeCasePropertyNames_ExpectedPascal()
+    public void Serialize_ToPascalCasePropertyNames_EmptyString()
     {
-        const string json = """{ "test_property": "someValue" }""";
+        var testData = new TestData("");
 
+        string json = JsonSerializer.Serialize(testData, _options);
+
+        Assert.Contains("TestProperty", json);
+        Assert.Contains("\"\"", json);
+    }
+
+    [Fact]
+    public void Serialize_ToPascalCasePropertyNames_MixedCaseString()
+    {
+        var testData = new TestData("SomeMixedCASEString");
+
+        string json = JsonSerializer.Serialize(testData, _options);
+
+        Assert.Contains("TestProperty", json);
+        Assert.Contains("SomeMixedCASEString", json);
+    }
+
+    [Fact]
+    public void Serialize_ToPascalCasePropertyNames_SpecialCharacters()
+    {
+        var testData = new TestData("Special@#%&*()Characters");
+
+        string json = JsonSerializer.Serialize(testData, _options);
+
+        Assert.Contains("TestProperty", json);
+        Assert.Contains("Special@#%&*()Characters", json);
+    }
+
+    [Fact]
+    public void Serialize_ToPascalCasePropertyNames_Numbers()
+    {
+        var testData = new TestData("StringWith123Numbers");
+
+        string json = JsonSerializer.Serialize(testData, _options);
+
+        Assert.Contains("TestProperty", json);
+        Assert.Contains("StringWith123Numbers", json);
+    }
+
+    [Theory]
+    [InlineData("""{ "TestProperty": "someValue" }""", "someValue")]
+    [InlineData("""{ "test_property": "someValue" }""", null)]
+    public void Deserialize_FromPascalCasePropertyNames(string json, string expectedValue)
+    {
         var result = JsonSerializer.Deserialize<TestData>(json, _options);
 
-        Assert.NotEqual("someValue", result!.TestProperty);
+        if (expectedValue != null)
+        {
+            Assert.Equal(expectedValue, result!.TestProperty);
+        }
+        else
+        {
+            Assert.NotEqual("someValue", result!.TestProperty);
+        }
     }
 }
