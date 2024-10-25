@@ -10,10 +10,11 @@ public static class SnakeCaseConverter
         {
             NamingStrategy.PascalCase => input.ToSnakeCaseFromPascalOrCamel(),
             NamingStrategy.CamelCase => input.ToSnakeCaseFromPascalOrCamel(),
-            NamingStrategy.KebabCase => input.ToSnakeCaseFromKebab(),
+            NamingStrategy.KebabCase => input.ToSnakeCaseFromLowerCaseDelimited(Delimiters.Dash),
             NamingStrategy.SnakeCase => input,
             NamingStrategy.UpperKebabCase => input.ToSnakeCaseFromUpperKebabCase(),
             NamingStrategy.UpperSnakeCase => input.ToSnakeCaseFromUpperSnakeCase(),
+            NamingStrategy.DotCase => input.ToSnakeCaseFromLowerCaseDelimited(Delimiters.Dot),
             _ => input.ToSnakeCaseFromUnknown()
         };
 
@@ -93,7 +94,7 @@ public static class SnakeCaseConverter
         });
     }
 
-    private static string ToSnakeCaseFromKebab(this string input)
+    private static string ToSnakeCaseFromLowerCaseDelimited(this string input, char delimiter)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -101,7 +102,7 @@ public static class SnakeCaseConverter
         {
             for (int i = 0; i < charArray.Length; i++)
             {
-                strContent[i] = charArray[i] == Delimiters.Dash ? Delimiters.Underscore : charArray[i];
+                strContent[i] = charArray[i] == delimiter ? Delimiters.Underscore : charArray[i];
             }
         });
     }

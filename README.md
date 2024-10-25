@@ -15,6 +15,7 @@ The following naming strategies are currently supported:
 - kebab-case
 - UPPER_SNAKE_CASE
 - UPPER-KEBAB-CASE
+- dot.case
 
 ## Usage
 NamingStrategyConverter.NET exposes string extension methods for each naming strategy following a `ToXCase()` syntax. For example, to convert to _camelCase_, you can use the `ToCamelCase()` method. Going from any naming strategy to another is supported.

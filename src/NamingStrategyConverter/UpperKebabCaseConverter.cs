@@ -14,6 +14,7 @@ public static class UpperKebabCaseConverter
             NamingStrategy.SnakeCase => input.ToUpperKebabCaseFromSnakeCase(),
             NamingStrategy.UpperKebabCase => input,
             NamingStrategy.UpperSnakeCase => input.ToUpperKebabCaseFromUpperSnakeCase(),
+            NamingStrategy.DotCase => input.ToUpperKebabCaseFromDotCase(),
             _ => input.ToUpperKebabCaseFromUnknown()
         };
 
@@ -98,6 +99,8 @@ public static class UpperKebabCaseConverter
     private static string ToUpperKebabCaseFromUpperSnakeCase(this string input) => input.Replace(Delimiters.Underscore, Delimiters.Dash);
 
     private static string ToUpperKebabCaseFromSnakeCase(this string input) => input.ToUpperInvariant().Replace(Delimiters.Underscore, Delimiters.Dash);
+
+    private static string ToUpperKebabCaseFromDotCase(this string input) => input.ToUpperInvariant().Replace(Delimiters.Underscore, Delimiters.Dot);
 
     public static bool IsUpperKebabCase(this string input)
     {
