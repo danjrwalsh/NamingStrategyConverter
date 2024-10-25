@@ -8,5 +8,6 @@ public enum NamingStrategy
     KebabCase,
     SnakeCase,
     UpperSnakeCase,
-    UpperKebabCase
+    UpperKebabCase,
+    DotCase
 }

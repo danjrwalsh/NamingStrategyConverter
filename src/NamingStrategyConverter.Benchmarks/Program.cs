@@ -7,3 +7,4 @@ BenchmarkRunner.Run<KebabCaseBenchmarks>();
 BenchmarkRunner.Run<SnakeCaseBenchmarks>();
 BenchmarkRunner.Run<UpperKebabCaseBenchmarks>();
 BenchmarkRunner.Run<UpperSnakeCaseBenchmarks>();
+BenchmarkRunner.Run<DotCaseBenchmarks>();

@@ -14,6 +14,7 @@ public static class CamelCaseConverter
             NamingStrategy.SnakeCase => input.ToCamelCaseFromSnake(),
             NamingStrategy.UpperKebabCase => input.ToCamelCaseFromUpperKebabCase(),
             NamingStrategy.UpperSnakeCase => input.ToCamelCaseFromUpperSnakeCase(),
+            NamingStrategy.DotCase => input.ToCamelCaseFromDotCase(),
             _ => input.ToCamelCaseFromUnknown()
         };
 
@@ -30,7 +31,7 @@ public static class CamelCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar is Delimiters.Underscore or Delimiters.Dash)
+            if (currentChar is Delimiters.Underscore or Delimiters.Dash or Delimiters.Dot)
             {
                 snakeCaseStrBuilder.Append(char.ToUpperInvariant(input[++i]));
 
@@ -167,13 +168,39 @@ public static class CamelCaseConverter
         });
     }
 
+    private static string ToCamelCaseFromDotCase(this string input)
+    {
+        if (string.IsNullOrEmpty(input)) return input;
+
+        int delimiters = 0;
+
+        for (int i = 1; i < input.Length; i++)
+        {
+            char currentChar = input[i];
+
+            if (currentChar == Delimiters.Dot) delimiters++;
+        }
+
+        return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
+        {
+            span[0] = char.ToLowerInvariant(chars[0]);
+            short spanIndex = 1;
+
+            for (int i = 1; i < chars.Length; i++)
+            {
+                char currentChar = chars[i];
+                span[spanIndex++] = currentChar == Delimiters.Dot ? char.ToUpperInvariant(chars[++i]) : currentChar;
+            }
+        });
+    }
+
     public static bool IsCamelCase(this string input)
     {
         if (!char.IsLower(input[0])) return false;
 
         for (int index = 1; index < input.Length; index++)
         {
-            if (input[index] is Delimiters.Dash or Delimiters.Underscore) return false;
+            if (input[index] is Delimiters.Dash or Delimiters.Underscore or Delimiters.Dot) return false;
         }
 
         return true;

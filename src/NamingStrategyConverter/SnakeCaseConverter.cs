@@ -14,6 +14,7 @@ public static class SnakeCaseConverter
             NamingStrategy.SnakeCase => input,
             NamingStrategy.UpperKebabCase => input.ToSnakeCaseFromUpperKebabCase(),
             NamingStrategy.UpperSnakeCase => input.ToSnakeCaseFromUpperSnakeCase(),
+            NamingStrategy.DotCase => input.ToSnakeCaseFromDotCase(),
             _ => input.ToSnakeCaseFromUnknown()
         };
 
@@ -109,6 +110,19 @@ public static class SnakeCaseConverter
     private static string ToSnakeCaseFromUpperKebabCase(this string input) => input.ToLowerInvariant().Replace(Delimiters.Dash, Delimiters.Underscore);
 
     private static string ToSnakeCaseFromUpperSnakeCase(this string input) => input.ToLowerInvariant();
+
+    private static string ToSnakeCaseFromDotCase(this string input)
+    {
+        if (string.IsNullOrEmpty(input)) return input;
+
+        return string.Create(input.Length, input.ToCharArray(), (strContent, charArray) =>
+        {
+            for (int i = 0; i < charArray.Length; i++)
+            {
+                strContent[i] = charArray[i] == Delimiters.Dot ? Delimiters.Underscore : charArray[i];
+            }
+        });
+    }
 
     public static bool IsSnakeCase(this string input)
     {

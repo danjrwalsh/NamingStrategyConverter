@@ -14,6 +14,7 @@ public static class UpperSnakeCaseConverter
             NamingStrategy.SnakeCase => input.ToUpperSnakeCaseFromSnakeCase(),
             NamingStrategy.UpperKebabCase => input.ToUpperSnakeCaseFromUpperKebabCase(),
             NamingStrategy.UpperSnakeCase => input,
+            NamingStrategy.DotCase => input.ToUpperSnakeCaseFromDotCase(),
             _ => input.ToUpperSnakeCaseFromUnknown()
         };
 
@@ -98,6 +99,19 @@ public static class UpperSnakeCaseConverter
     private static string ToUpperSnakeCaseFromUpperKebabCase(this string input) => input.Replace(Delimiters.Dash, Delimiters.Underscore);
 
     private static string ToUpperSnakeCaseFromSnakeCase(this string input) => input.ToUpperInvariant();
+
+    private static string ToUpperSnakeCaseFromDotCase(this string input)
+    {
+        if (string.IsNullOrEmpty(input)) return input;
+
+        return string.Create(input.Length, input.ToCharArray(), (strContent, charArray) =>
+        {
+            for (int i = 0; i < charArray.Length; i++)
+            {
+                strContent[i] = charArray[i] == Delimiters.Dot ? Delimiters.Underscore : char.ToUpperInvariant(charArray[i]);
+            }
+        });
+    }
 
     public static bool IsUpperSnakeCase(this string input)
     {
