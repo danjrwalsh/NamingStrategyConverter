@@ -11,10 +11,10 @@ public static class KebabCaseConverter
             NamingStrategy.PascalCase => input.ToKebabCaseFromPascalOrCamel(),
             NamingStrategy.CamelCase => input.ToKebabCaseFromPascalOrCamel(),
             NamingStrategy.KebabCase => input,
-            NamingStrategy.SnakeCase => input.ToKebabCaseFromSnake(),
-            NamingStrategy.UpperKebabCase => input.ToKebabCaseFromUpperKebabCase(),
+            NamingStrategy.SnakeCase => input.ToKebabCaseFromLowerCaseDelimited(Delimiters.Underscore),
+            NamingStrategy.UpperKebabCase => input.ToKebabCaseFromUpperCaseDelimited(),
             NamingStrategy.UpperSnakeCase => input.ToKebabCaseFromUpperSnakeCase(),
-            NamingStrategy.DotCase => input.ToKebabCaseFromDotCase(),
+            NamingStrategy.DotCase => input.ToKebabCaseFromLowerCaseDelimited(Delimiters.Dot),
             _ => input.ToKebabCaseFromUnknown()
         };
 
@@ -94,7 +94,7 @@ public static class KebabCaseConverter
         });
     }
 
-    private static string ToKebabCaseFromSnake(this string input)
+    private static string ToKebabCaseFromLowerCaseDelimited(this string input, char delimiter)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -102,27 +102,14 @@ public static class KebabCaseConverter
         {
             for (int i = 0; i < charArray.Length; i++)
             {
-                strContent[i] = charArray[i] == Delimiters.Underscore ? Delimiters.Dash : charArray[i];
+                strContent[i] = charArray[i] == delimiter ? Delimiters.Dash : charArray[i];
             }
         });
     }
 
-    private static string ToKebabCaseFromUpperKebabCase(this string input) => input.ToLowerInvariant();
+    private static string ToKebabCaseFromUpperCaseDelimited(this string input) => input.ToLowerInvariant();
 
     private static string ToKebabCaseFromUpperSnakeCase(this string input) => input.ToLowerInvariant().Replace(Delimiters.Underscore, Delimiters.Dash);
-
-    private static string ToKebabCaseFromDotCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        return string.Create(input.Length, input.ToCharArray(), (strContent, charArray) =>
-        {
-            for (int i = 0; i < charArray.Length; i++)
-            {
-                strContent[i] = charArray[i] == Delimiters.Dot ? Delimiters.Dash : charArray[i];
-            }
-        });
-    }
 
     public static bool IsKebabCase(this string input)
     {

@@ -10,11 +10,11 @@ public static class CamelCaseConverter
         {
             NamingStrategy.PascalCase => input.ToCamelCaseFromPascal(),
             NamingStrategy.CamelCase => input,
-            NamingStrategy.KebabCase => input.ToCamelCaseFromKebab(),
-            NamingStrategy.SnakeCase => input.ToCamelCaseFromSnake(),
-            NamingStrategy.UpperKebabCase => input.ToCamelCaseFromUpperKebabCase(),
-            NamingStrategy.UpperSnakeCase => input.ToCamelCaseFromUpperSnakeCase(),
-            NamingStrategy.DotCase => input.ToCamelCaseFromDotCase(),
+            NamingStrategy.KebabCase => input.ToCamelCaseFromLowerCaseDelimited(Delimiters.Dash),
+            NamingStrategy.SnakeCase => input.ToCamelCaseFromLowerCaseDelimited(Delimiters.Underscore),
+            NamingStrategy.UpperKebabCase => input.ToCamelCaseFromUpperCaseDelimited(Delimiters.Dash),
+            NamingStrategy.UpperSnakeCase => input.ToCamelCaseFromUpperCaseDelimited(Delimiters.Underscore),
+            NamingStrategy.DotCase => input.ToCamelCaseFromLowerCaseDelimited(Delimiters.Dot),
             _ => input.ToCamelCaseFromUnknown()
         };
 
@@ -64,7 +64,7 @@ public static class CamelCaseConverter
         });
     }
 
-    private static string ToCamelCaseFromKebab(this string input)
+    private static string ToCamelCaseFromLowerCaseDelimited(this string input, char delimiter)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -74,7 +74,7 @@ public static class CamelCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == Delimiters.Dash) delimiters++;
+            if (currentChar == delimiter) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -85,12 +85,12 @@ public static class CamelCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Dash ? char.ToUpperInvariant(chars[++i]) : currentChar;
+                span[spanIndex++] = currentChar == delimiter ? char.ToUpperInvariant(chars[++i]) : currentChar;
             }
         });
     }
 
-    private static string ToCamelCaseFromSnake(this string input)
+    private static string ToCamelCaseFromUpperCaseDelimited(this string input, char delimiter)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -100,7 +100,7 @@ public static class CamelCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == Delimiters.Underscore) delimiters++;
+            if (currentChar == delimiter) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -111,89 +111,11 @@ public static class CamelCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Underscore ? char.ToUpperInvariant(chars[++i]) : currentChar;
+                span[spanIndex++] = currentChar == delimiter ? char.ToUpperInvariant(chars[++i]) : char.ToLowerInvariant(currentChar);
             }
         });
     }
-
-    private static string ToCamelCaseFromUpperKebabCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        int delimiters = 0;
-
-        for (int i = 1; i < input.Length; i++)
-        {
-            char currentChar = input[i];
-
-            if (currentChar == Delimiters.Dash) delimiters++;
-        }
-
-        return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
-        {
-            span[0] = char.ToLowerInvariant(chars[0]);
-            short spanIndex = 1;
-
-            for (int i = 1; i < chars.Length; i++)
-            {
-                char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Dash ? chars[++i] : char.ToLowerInvariant(currentChar);
-            }
-        });
-    }
-
-    private static string ToCamelCaseFromUpperSnakeCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        int delimiters = 0;
-
-        for (int i = 1; i < input.Length; i++)
-        {
-            char currentChar = input[i];
-
-            if (currentChar == Delimiters.Underscore) delimiters++;
-        }
-
-        return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
-        {
-            span[0] = char.ToLowerInvariant(chars[0]);
-            short spanIndex = 1;
-
-            for (int i = 1; i < chars.Length; i++)
-            {
-                char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Underscore ? chars[++i] : char.ToLowerInvariant(currentChar);
-            }
-        });
-    }
-
-    private static string ToCamelCaseFromDotCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        int delimiters = 0;
-
-        for (int i = 1; i < input.Length; i++)
-        {
-            char currentChar = input[i];
-
-            if (currentChar == Delimiters.Dot) delimiters++;
-        }
-
-        return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
-        {
-            span[0] = char.ToLowerInvariant(chars[0]);
-            short spanIndex = 1;
-
-            for (int i = 1; i < chars.Length; i++)
-            {
-                char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Dot ? char.ToUpperInvariant(chars[++i]) : currentChar;
-            }
-        });
-    }
-
+    
     public static bool IsCamelCase(this string input)
     {
         if (!char.IsLower(input[0])) return false;

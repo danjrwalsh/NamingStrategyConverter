@@ -10,11 +10,11 @@ public static class SnakeCaseConverter
         {
             NamingStrategy.PascalCase => input.ToSnakeCaseFromPascalOrCamel(),
             NamingStrategy.CamelCase => input.ToSnakeCaseFromPascalOrCamel(),
-            NamingStrategy.KebabCase => input.ToSnakeCaseFromKebab(),
+            NamingStrategy.KebabCase => input.ToSnakeCaseFromLowerCaseDelimited(Delimiters.Dash),
             NamingStrategy.SnakeCase => input,
             NamingStrategy.UpperKebabCase => input.ToSnakeCaseFromUpperKebabCase(),
             NamingStrategy.UpperSnakeCase => input.ToSnakeCaseFromUpperSnakeCase(),
-            NamingStrategy.DotCase => input.ToSnakeCaseFromDotCase(),
+            NamingStrategy.DotCase => input.ToSnakeCaseFromLowerCaseDelimited(Delimiters.Dot),
             _ => input.ToSnakeCaseFromUnknown()
         };
 
@@ -94,7 +94,7 @@ public static class SnakeCaseConverter
         });
     }
 
-    private static string ToSnakeCaseFromKebab(this string input)
+    private static string ToSnakeCaseFromLowerCaseDelimited(this string input, char delimiter)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -102,7 +102,7 @@ public static class SnakeCaseConverter
         {
             for (int i = 0; i < charArray.Length; i++)
             {
-                strContent[i] = charArray[i] == Delimiters.Dash ? Delimiters.Underscore : charArray[i];
+                strContent[i] = charArray[i] == Delimiters.Dash ? delimiter : charArray[i];
             }
         });
     }
@@ -110,19 +110,6 @@ public static class SnakeCaseConverter
     private static string ToSnakeCaseFromUpperKebabCase(this string input) => input.ToLowerInvariant().Replace(Delimiters.Dash, Delimiters.Underscore);
 
     private static string ToSnakeCaseFromUpperSnakeCase(this string input) => input.ToLowerInvariant();
-
-    private static string ToSnakeCaseFromDotCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        return string.Create(input.Length, input.ToCharArray(), (strContent, charArray) =>
-        {
-            for (int i = 0; i < charArray.Length; i++)
-            {
-                strContent[i] = charArray[i] == Delimiters.Dot ? Delimiters.Underscore : charArray[i];
-            }
-        });
-    }
 
     public static bool IsSnakeCase(this string input)
     {

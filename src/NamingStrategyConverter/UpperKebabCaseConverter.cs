@@ -100,18 +100,7 @@ public static class UpperKebabCaseConverter
 
     private static string ToUpperKebabCaseFromSnakeCase(this string input) => input.ToUpperInvariant().Replace(Delimiters.Underscore, Delimiters.Dash);
 
-    private static string ToUpperKebabCaseFromDotCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        return string.Create(input.Length, input.ToCharArray(), (strContent, charArray) =>
-        {
-            for (int i = 0; i < charArray.Length; i++)
-            {
-                strContent[i] = charArray[i] == Delimiters.Dot ? Delimiters.Dash : char.ToUpperInvariant(charArray[i]);
-            }
-        });
-    }
+    private static string ToUpperKebabCaseFromDotCase(this string input) => input.ToUpperInvariant().Replace(Delimiters.Underscore, Delimiters.Dot);
 
     public static bool IsUpperKebabCase(this string input)
     {

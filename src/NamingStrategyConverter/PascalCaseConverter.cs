@@ -10,11 +10,11 @@ public static class PascalCaseConverter
         {
             NamingStrategy.PascalCase => input,
             NamingStrategy.CamelCase => input.ToPascalCaseFromCamel(),
-            NamingStrategy.KebabCase => input.ToPascalCaseFromKebab(),
-            NamingStrategy.SnakeCase => input.ToPascalCaseFromSnake(),
-            NamingStrategy.UpperKebabCase => input.ToPascalCaseFromUpperKebabCase(),
-            NamingStrategy.UpperSnakeCase => input.ToPascalCaseFromUpperSnakeCase(),
-            NamingStrategy.DotCase => input.ToPascalCaseFromDotCase(),
+            NamingStrategy.KebabCase => input.ToPascalCaseFromLowerCaseDelimited(Delimiters.Dash),
+            NamingStrategy.SnakeCase => input.ToPascalCaseFromLowerCaseDelimited(Delimiters.Underscore),
+            NamingStrategy.UpperKebabCase => input.ToPascalCaseFromUpperCaseDelimited(Delimiters.Dash),
+            NamingStrategy.UpperSnakeCase => input.ToPascalCaseFromUpperCaseDelimited(Delimiters.Underscore),
+            NamingStrategy.DotCase => input.ToPascalCaseFromLowerCaseDelimited(Delimiters.Dot),
             _ => input.ToPascalCaseFromUnknown()
         };
 
@@ -80,7 +80,7 @@ public static class PascalCaseConverter
         });
     }
 
-    private static string ToPascalCaseFromKebab(this string input)
+    private static string ToPascalCaseFromLowerCaseDelimited(this string input, char delimiter)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -90,7 +90,7 @@ public static class PascalCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == Delimiters.Dash) delimiters++;
+            if (currentChar == delimiter) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -101,12 +101,12 @@ public static class PascalCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Dash ? char.ToUpperInvariant(chars[++i]) : currentChar;
+                span[spanIndex++] = currentChar == delimiter ? char.ToUpperInvariant(chars[++i]) : currentChar;
             }
         });
     }
-
-    private static string ToPascalCaseFromSnake(this string input)
+    
+    private static string ToPascalCaseFromUpperCaseDelimited(this string input, char delimiter)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -116,33 +116,7 @@ public static class PascalCaseConverter
         {
             char currentChar = input[i];
 
-            if (currentChar == Delimiters.Underscore) delimiters++;
-        }
-
-        return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
-        {
-            span[0] = char.ToUpperInvariant(chars[0]);
-            short spanIndex = 1;
-
-            for (int i = 1; i < chars.Length; i++)
-            {
-                char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Underscore ? char.ToUpperInvariant(chars[++i]) : currentChar;
-            }
-        });
-    }
-
-    private static string ToPascalCaseFromUpperKebabCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        int delimiters = 0;
-
-        for (int i = 1; i < input.Length; i++)
-        {
-            char currentChar = input[i];
-
-            if (currentChar == Delimiters.Dash) delimiters++;
+            if (currentChar == delimiter) delimiters++;
         }
 
         return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
@@ -153,59 +127,7 @@ public static class PascalCaseConverter
             for (int i = 1; i < chars.Length; i++)
             {
                 char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Dash ? chars[++i] : char.ToLowerInvariant(currentChar);
-            }
-        });
-    }
-
-    private static string ToPascalCaseFromUpperSnakeCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        int delimiters = 0;
-
-        for (int i = 1; i < input.Length; i++)
-        {
-            char currentChar = input[i];
-
-            if (currentChar == Delimiters.Underscore) delimiters++;
-        }
-
-        return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
-        {
-            span[0] = chars[0];
-            short spanIndex = 1;
-
-            for (int i = 1; i < chars.Length; i++)
-            {
-                char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Underscore ? chars[++i] : char.ToLowerInvariant(currentChar);
-            }
-        });
-    }
-
-    private static string ToPascalCaseFromDotCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        int delimiters = 0;
-
-        for (int i = 1; i < input.Length; i++)
-        {
-            char currentChar = input[i];
-
-            if (currentChar == Delimiters.Dot) delimiters++;
-        }
-
-        return string.Create(input.Length - delimiters, input.ToCharArray(), (span, chars) =>
-        {
-            span[0] = char.ToUpperInvariant(chars[0]);
-            short spanIndex = 1;
-
-            for (int i = 1; i < chars.Length; i++)
-            {
-                char currentChar = chars[i];
-                span[spanIndex++] = currentChar == Delimiters.Dot ? char.ToUpperInvariant(chars[++i]) : currentChar;
+                span[spanIndex++] = currentChar == delimiter ? chars[++i] : char.ToLowerInvariant(currentChar);
             }
         });
     }

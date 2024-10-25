@@ -10,10 +10,10 @@ public static class DotCaseConverter
         {
             NamingStrategy.PascalCase => input.ToDotCaseFromPascalOrCamel(),
             NamingStrategy.CamelCase => input.ToDotCaseFromPascalOrCamel(),
-            NamingStrategy.KebabCase => input.ToDotCaseFromKebab(),
-            NamingStrategy.SnakeCase => input.ToDotCaseFromSnake(),
-            NamingStrategy.UpperKebabCase => input.ToDotCaseFromUpperKebabCase(),
-            NamingStrategy.UpperSnakeCase => input.ToDotCaseFromUpperSnakeCase(),
+            NamingStrategy.KebabCase => input.ToDotCaseFromLowerCaseDelimited(Delimiters.Dash),
+            NamingStrategy.SnakeCase => input.ToDotCaseFromLowerCaseDelimited(Delimiters.Underscore),
+            NamingStrategy.UpperKebabCase => input.ToDotCaseFromUpperCaseDelimited(Delimiters.Dash),
+            NamingStrategy.UpperSnakeCase => input.ToDotCaseFromUpperCaseDelimited(Delimiters.Underscore),
             NamingStrategy.DotCase => input,
             _ => input.ToDotCaseFromUnknown()
         };
@@ -94,7 +94,7 @@ public static class DotCaseConverter
         });
     }
 
-    private static string ToDotCaseFromKebab(this string input)
+    private static string ToDotCaseFromLowerCaseDelimited(this string input, char delimiter)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -102,12 +102,12 @@ public static class DotCaseConverter
         {
             for (int i = 0; i < charArray.Length; i++)
             {
-                strContent[i] = charArray[i] == Delimiters.Dash ? Delimiters.Dot : charArray[i];
+                strContent[i] = charArray[i] == delimiter ? Delimiters.Dot : charArray[i];
             }
         });
     }
 
-    private static string ToDotCaseFromSnake(this string input)
+    private static string ToDotCaseFromUpperCaseDelimited(this string input, char delimiter)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
@@ -115,15 +115,11 @@ public static class DotCaseConverter
         {
             for (int i = 0; i < charArray.Length; i++)
             {
-                strContent[i] = charArray[i] == Delimiters.Underscore ? Delimiters.Dot : charArray[i];
+                strContent[i] = charArray[i] == delimiter ? Delimiters.Dot : char.ToLowerInvariant(charArray[i]);
             }
         });
     }
-
-    private static string ToDotCaseFromUpperKebabCase(this string input) => input.ToLowerInvariant().Replace(Delimiters.Dash, Delimiters.Dot);
-
-    private static string ToDotCaseFromUpperSnakeCase(this string input) => input.ToLowerInvariant().Replace(Delimiters.Underscore, Delimiters.Dot);
-
+    
     public static bool IsDotCase(this string input)
     {
         foreach (char c in input)

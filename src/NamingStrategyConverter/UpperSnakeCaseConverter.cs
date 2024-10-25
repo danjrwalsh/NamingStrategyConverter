@@ -100,18 +100,7 @@ public static class UpperSnakeCaseConverter
 
     private static string ToUpperSnakeCaseFromSnakeCase(this string input) => input.ToUpperInvariant();
 
-    private static string ToUpperSnakeCaseFromDotCase(this string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        return string.Create(input.Length, input.ToCharArray(), (strContent, charArray) =>
-        {
-            for (int i = 0; i < charArray.Length; i++)
-            {
-                strContent[i] = charArray[i] == Delimiters.Dot ? Delimiters.Underscore : char.ToUpperInvariant(charArray[i]);
-            }
-        });
-    }
+    private static string ToUpperSnakeCaseFromDotCase(this string input) => input.Replace(Delimiters.Dash, Delimiters.Dot);
 
     public static bool IsUpperSnakeCase(this string input)
     {
