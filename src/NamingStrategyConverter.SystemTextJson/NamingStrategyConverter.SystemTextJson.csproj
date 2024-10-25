@@ -14,10 +14,11 @@
         <RepositoryUrl>https://github.com/danjrwalsh/NamingStrategyConverter</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseUrl>https://github.com/danjrwalsh/NamingStrategyConverter/blob/main/LICENSE</PackageLicenseUrl>
+        <Version>1.2.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.Text.Json" Version="8.0.4" />
+        <PackageReference Include="System.Text.Json" Version="8.0.5" />
     </ItemGroup>
 
     <ItemGroup>
