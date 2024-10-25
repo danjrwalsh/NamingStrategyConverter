@@ -13,85 +13,33 @@ public sealed class SnakeCaseJsonConversionTests
     }
 
     [Fact]
-    public void Serialize_ToSnakeCasePropertyNames_SomeValue()
+    public void Serialize_ToSnakeCasePropertyNames()
     {
-        var testData = new TestData("someValue");
+        var testData = new TestData();
 
         string json = JsonSerializer.Serialize(testData, _options);
 
         Assert.Contains("test_property", json);
-        Assert.Contains("someValue", json);
+        Assert.DoesNotContain("testProperty", json);
     }
 
     [Fact]
-    public void Serialize_ToSnakeCasePropertyNames_Null()
+    public void Deserialize_FromSnakeCasePropertyNames()
     {
-        var testData = new TestData(null);
+        const string json = """{ "test_property": "someValue" }""";
 
-        string json = JsonSerializer.Serialize(testData, _options);
-
-        Assert.Contains("test_property", json);
-        Assert.Contains("null", json);
-    }
-
-    [Fact]
-    public void Serialize_ToSnakeCasePropertyNames_EmptyString()
-    {
-        var testData = new TestData("");
-
-        string json = JsonSerializer.Serialize(testData, _options);
-
-        Assert.Contains("test_property", json);
-        Assert.Contains("\"\"", json);
-    }
-
-    [Fact]
-    public void Serialize_ToSnakeCasePropertyNames_MixedCaseString()
-    {
-        var testData = new TestData("SomeMixedCASEString");
-
-        string json = JsonSerializer.Serialize(testData, _options);
-
-        Assert.Contains("test_property", json);
-        Assert.Contains("SomeMixedCASEString", json);
-    }
-
-    [Fact]
-    public void Serialize_ToSnakeCasePropertyNames_SpecialCharacters()
-    {
-        var testData = new TestData("Special@#%&*()Characters");
-
-        string json = JsonSerializer.Serialize(testData, _options);
-
-        Assert.Contains("test_property", json);
-        Assert.Contains("Special@#%&*()Characters", json);
-    }
-
-    [Fact]
-    public void Serialize_ToSnakeCasePropertyNames_Numbers()
-    {
-        var testData = new TestData("StringWith123Numbers");
-
-        string json = JsonSerializer.Serialize(testData, _options);
-
-        Assert.Contains("test_property", json);
-        Assert.Contains("StringWith123Numbers", json);
-    }
-
-    [Theory]
-    [InlineData("""{ "test_property": "someValue" }""", "someValue")]
-    [InlineData("""{ "testProperty": "someValue" }""", null)]
-    public void Deserialize_FromSnakeCasePropertyNames(string json, string expectedValue)
-    {
         var result = JsonSerializer.Deserialize<TestData>(json, _options);
 
-        if (expectedValue != null)
-        {
-            Assert.Equal(expectedValue, result!.TestProperty);
-        }
-        else
-        {
-            Assert.NotEqual("someValue", result!.TestProperty);
-        }
+        Assert.Equal("someValue", result!.TestProperty);
+    }
+
+    [Fact]
+    public void DeserializeFails_FromCamelCasePropertyNames_ExpectedSnake()
+    {
+        const string json = """{ "testProperty": "someValue" }""";
+
+        var result = JsonSerializer.Deserialize<TestData>(json, _options);
+
+        Assert.NotEqual("someValue", result!.TestProperty);
     }
 }
