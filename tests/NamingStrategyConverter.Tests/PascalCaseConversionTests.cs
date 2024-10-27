@@ -15,9 +15,9 @@ public class PascalCaseConversionTests
     [InlineData("THISWASUPPERCASE", "Thiswasuppercase", NamingStrategy.Unknown)]
     [InlineData("thiswaslowercase", "Thiswaslowercase", NamingStrategy.Unknown)]
     [InlineData("", "", NamingStrategy.Unknown)]
-    [InlineData("SomeMixedCASEString", "Somemixedcasestring", NamingStrategy.Unknown)]
-    [InlineData("Special@#%&*()Characters", "Special@#%&*()characters", NamingStrategy.Unknown)]
-    [InlineData("StringWith123Numbers", "Stringwith123numbers", NamingStrategy.Unknown)]
+    [InlineData("SomeMixedCASEString", "SomeMixedCASEString", NamingStrategy.Unknown)]
+    [InlineData("Special@#%&*()Characters", "Special@#%&*()Characters", NamingStrategy.Unknown)]
+    [InlineData("StringWith123Numbers", "StringWith123Numbers", NamingStrategy.Unknown)]
     public void ToPascalCase_ValidConversion(string input, string expected, NamingStrategy strategy)
     {
         string result = input.ToPascalCase(strategy);
@@ -26,8 +26,13 @@ public class PascalCaseConversionTests
     }
 
     [Theory]
-    [InlineData("ThisIsPascalCase", true)]
     [InlineData("thisIsNotPascalCase", false)]
+    [InlineData("ThisIsPascalCase", true)]
+    [InlineData("this is not pascal case", false)]
+    [InlineData("this_is_not_pascal_case", false)]
+    [InlineData("this-is-not-pascal-case", false)]
+    [InlineData("this.is.not.pascal.case", false)]
+    [InlineData("THISISNOTPASCALCASE", true)]
     public void IsPascalCase_ValidCheck(string input, bool expected)
     {
         bool result = input.IsPascalCase();

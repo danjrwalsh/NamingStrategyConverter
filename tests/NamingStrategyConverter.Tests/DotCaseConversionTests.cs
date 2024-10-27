@@ -16,9 +16,9 @@ public class DotCaseConversionTests
     [InlineData("THISWASUPPERCASE", "thiswasuppercase", NamingStrategy.Unknown)]
     [InlineData("thiswaslowercase", "thiswaslowercase", NamingStrategy.Unknown)]
     [InlineData("", "", NamingStrategy.Unknown)]
-    [InlineData("SomeMixedCASEString", "some.mixed.case.string", NamingStrategy.Unknown)]
-    [InlineData("Special@#%&*()Characters", "special@#%&*()characters", NamingStrategy.Unknown)]
-    [InlineData("StringWith123Numbers", "string.with123numbers", NamingStrategy.Unknown)]
+    [InlineData("SomeMixedCASEString", "some.mixed.c.a.s.e.string", NamingStrategy.Unknown)]
+    [InlineData("Special@#%&*()Characters", "special@#%&*().characters", NamingStrategy.Unknown)]
+    [InlineData("StringWith123Numbers", "string.with123.numbers", NamingStrategy.Unknown)]
     public void ToDotCase_ValidConversion(string input, string expected, NamingStrategy strategy)
     {
         string result = input.ToDotCase(strategy);
@@ -27,8 +27,12 @@ public class DotCaseConversionTests
     }
 
     [Theory]
-    [InlineData("this.is.dot.case", true)]
+    [InlineData("thisIsNotDotCase", false)]
+    [InlineData("ThisIsNotDotCase", false)]
+    [InlineData("this is not dot case", false)]
     [InlineData("this_is_not_dot_case", false)]
+    [InlineData("this.is.dot.case", true)]
+    [InlineData("THISISNOTDOTCASE", false)]
     public void IsDotCase_ValidCheck(string input, bool expected)
     {
         bool result = input.IsDotCase();

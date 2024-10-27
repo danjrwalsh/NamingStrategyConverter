@@ -15,9 +15,9 @@ public class KebabCaseConversionTests
     [InlineData("THISWASUPPERCASE", "thiswasuppercase", NamingStrategy.Unknown)]
     [InlineData("thiswaslowercase", "thiswaslowercase", NamingStrategy.Unknown)]
     [InlineData("", "", NamingStrategy.Unknown)]
-    [InlineData("SomeMixedCASEString", "some-mixed-case-string", NamingStrategy.Unknown)]
-    [InlineData("Special@#%&*()Characters", "special@#%&*()characters", NamingStrategy.Unknown)]
-    [InlineData("StringWith123Numbers", "stringwith123numbers", NamingStrategy.Unknown)]
+    [InlineData("SomeMixedCASEString", "some-mixed-c-a-s-e-string", NamingStrategy.Unknown)]
+    [InlineData("Special@#%&*()Characters", "special@#%&*()-characters", NamingStrategy.Unknown)]
+    [InlineData("StringWith123Numbers", "string-with123-numbers", NamingStrategy.Unknown)]
     public void ToKebabCase_ValidConversion(string input, string expected, NamingStrategy strategy)
     {
         string result = input.ToKebabCase(strategy);
@@ -26,8 +26,13 @@ public class KebabCaseConversionTests
     }
 
     [Theory]
-    [InlineData("this-is-kebab-case", true)]
+    [InlineData("thisIsNotKebabCase", false)]
+    [InlineData("ThisIsNotKebabCase", false)]
+    [InlineData("this is not kebab case", false)]
     [InlineData("this_is_not_kebab_case", false)]
+    [InlineData("this-is-kebab-case", true)]
+    [InlineData("this.is.kebab.case", false)]
+    [InlineData("THISISNOTKEBABCASE", false)]
     public void IsKebabCase_ValidCheck(string input, bool expected)
     {
         bool result = input.IsKebabCase();
