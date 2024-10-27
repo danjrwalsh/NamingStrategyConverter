@@ -5,164 +5,39 @@ namespace DanWalsh.NamingStrategyConverter.Tests;
 
 public class UpperKebabCaseConversionTests
 {
-    [Fact]
-    public void PascalCase_To_UpperKebabCase_General_ValidConversion()
+    [Theory]
+    [InlineData("ThisWasPascalCase", "THIS-WAS-PASCAL-CASE", NamingStrategy.PascalCase)]
+    [InlineData("thisWasCamelCase", "THIS-WAS-CAMEL-CASE", NamingStrategy.CamelCase)]
+    [InlineData("this-was-kebab-case", "THIS-WAS-KEBAB-CASE", NamingStrategy.KebabCase)]
+    [InlineData("THIS-WAS-UPPER-KEBAB-CASE", "THIS-WAS-UPPER-KEBAB-CASE", NamingStrategy.UpperKebabCase)]
+    [InlineData("THIS_WAS_UPPER_SNAKE_CASE", "THIS-WAS-UPPER-SNAKE-CASE", NamingStrategy.UpperSnakeCase)]
+    [InlineData("this_was_snake_case", "THIS-WAS-SNAKE-CASE", NamingStrategy.SnakeCase)]
+    [InlineData("THISWASUPPERCASE", "THISWASUPPERCASE", NamingStrategy.Unknown)]
+    [InlineData("thiswaslowercase", "THISWASLOWERCASE", NamingStrategy.Unknown)]
+    [InlineData("", "", NamingStrategy.Unknown)]
+    [InlineData("SomeMixedCASEString", "SOME-MIXED-C-A-S-E-STRING", NamingStrategy.Unknown)]
+    [InlineData("Special@#%&*()Characters", "SPECIAL@#%&*()-CHARACTERS", NamingStrategy.Unknown)]
+    [InlineData("StringWith123Numbers", "STRING-WITH123-NUMBERS", NamingStrategy.Unknown)]
+    public void ToUpperKebabCase_ValidConversion(string input, string expected, NamingStrategy strategy)
     {
-        const string str = "ThisWasPascalCase";
+        string result = input.ToUpperKebabCase(strategy);
 
-        string result = str.ToUpperKebabCase();
-
-        Assert.Equal("THIS-WAS-PASCAL-CASE", result);
+        Assert.Equal(expected, result);
     }
 
-    [Fact]
-    public void PascalCase_To_UpperKebabCase_KnownNamingStrategy_ValidConversion()
+    [Theory]
+    [InlineData("THIS-IS-UPPER-KEBAB-CASE", true)]
+    [InlineData("thisIsNotUpperKebabCase", false)]
+    [InlineData("ThisIsNotUpperKebabCase", false)]
+    [InlineData("this is not upper kebab case", false)]
+    [InlineData("this_is_not_upper_kebab_case", false)]
+    [InlineData("this-is-not-upper-kebab-case", false)]
+    [InlineData("this.is.not.upper.kebab.case", false)]
+    [InlineData("THISISNOTUPPERKEBABCASE", true)]
+    public void IsUpperKebabCase_ValidCheck(string input, bool expected)
     {
-        const string str = "ThisWasPascalCase";
+        bool result = input.IsUpperKebabCase();
 
-        string result = str.ToUpperKebabCase(NamingStrategy.PascalCase);
-
-        Assert.Equal("THIS-WAS-PASCAL-CASE", result);
-    }
-
-    [Fact]
-    public void CamelCase_To_UpperKebabCase_General_ValidConversion()
-    {
-        const string str = "thisWasCamelCase";
-
-        string result = str.ToUpperKebabCase();
-
-        Assert.Equal("THIS-WAS-CAMEL-CASE", result);
-    }
-
-    [Fact]
-    public void CamelCase_To_UpperKebabCase_KnownNamingStrategy_ValidConversion()
-    {
-        const string str = "thisWasCamelCase";
-
-        string result = str.ToUpperKebabCase(NamingStrategy.CamelCase);
-
-        Assert.Equal("THIS-WAS-CAMEL-CASE", result);
-    }
-
-    [Fact]
-    public void KebabCase_To_UpperKebabCase_General_ValidConversion()
-    {
-        const string str = "this-was-kebab-case";
-
-        string result = str.ToUpperKebabCase();
-
-        Assert.Equal("THIS-WAS-KEBAB-CASE", result);
-    }
-
-    [Fact]
-    public void KebabCase_To_UpperKebabCase_KnownNamingStrategy_ValidConversion()
-    {
-        const string str = "this-was-kebab-case";
-
-        string result = str.ToUpperKebabCase(NamingStrategy.KebabCase);
-
-        Assert.Equal("THIS-WAS-KEBAB-CASE", result);
-    }
-
-    [Fact]
-    public void UpperKebabCase_To_UpperKebabCase_General_RemainsUnchanged()
-    {
-        const string str = "THIS-WAS-UPPER-KEBAB-CASE";
-
-        string result = str.ToUpperKebabCase();
-
-        Assert.Equal("THIS-WAS-UPPER-KEBAB-CASE", result);
-    }
-
-    [Fact]
-    public void UpperKebabCase_To_UpperKebabCase_KnownNamingStrategy_RemainsUnchanged()
-    {
-        const string str = "THIS-WAS-UPPER-KEBAB-CASE";
-
-        // Realistically this would never happen but test it anyways
-        string result = str.ToUpperKebabCase(NamingStrategy.UpperKebabCase);
-
-        Assert.Equal("THIS-WAS-UPPER-KEBAB-CASE", result);
-    }
-
-    [Fact]
-    public void UpperSnakeCase_To_UpperKebabCase_General_ValidConversion()
-    {
-        const string str = "THIS_WAS_UPPER_SNAKE_CASE";
-
-        string result = str.ToUpperKebabCase();
-
-        Assert.Equal("THIS-WAS-UPPER-SNAKE-CASE", result);
-    }
-
-    [Fact]
-    public void UpperSnakeCase_To_UpperKebabCase_KnownNamingStrategy_ValidConversion()
-    {
-        const string str = "THIS_WAS_UPPER_SNAKE_CASE";
-
-        string result = str.ToUpperKebabCase(NamingStrategy.UpperSnakeCase);
-
-        Assert.Equal("THIS-WAS-UPPER-SNAKE-CASE", result);
-    }
-
-    [Fact]
-    public void SnakeCase_To_UpperKebabCase_General_ValidConversion()
-    {
-        const string str = "this_was_snake_case";
-
-        string result = str.ToUpperKebabCase();
-
-        Assert.Equal("THIS-WAS-SNAKE-CASE", result);
-    }
-
-    [Fact]
-    public void SnakeCase_To_UpperKebabCase_KnownNamingStrategy_ValidConversion()
-    {
-        const string str = "this_was_snake_case";
-
-        string result = str.ToUpperKebabCase(NamingStrategy.SnakeCase);
-
-        Assert.Equal("THIS-WAS-SNAKE-CASE", result);
-    }
-
-    [Fact]
-    public void AllUpperCase_To_UpperKebabCase_RemainsUnchanged()
-    {
-        const string str = "THISWASUPPERCASE";
-
-        string result = str.ToUpperKebabCase();
-
-        Assert.Equal("THISWASUPPERCASE", result);
-    }
-
-    [Fact]
-    public void AllLowerCase_To_UpperKebabCase_ValidConversion()
-    {
-        const string str = "thiswaslowercase";
-
-        string result = str.ToUpperKebabCase();
-
-        Assert.Equal("THISWASLOWERCASE", result);
-    }
-
-    [Fact]
-    public void IsUpperKebabCase_WithValidUpperKebabCase_ReturnsTrue()
-    {
-        const string str = "THIS-IS-UPPER-KEBAB-CASE";
-
-        bool result = str.IsUpperKebabCase();
-
-        Assert.True(result);
-    }
-
-    [Fact]
-    public void IsUpperKebabCase_WithInvalidUpperKebabCase_ReturnsFalse()
-    {
-        const string str = "this_is_not_upper_kebab_case";
-
-        bool result = str.IsUpperKebabCase();
-
-        Assert.False(result);
+        Assert.Equal(expected, result);
     }
 }

@@ -25,25 +25,18 @@ public static class CamelCaseConverter
         var snakeCaseStrBuilder = new StringBuilder(input.Length);
         snakeCaseStrBuilder.Append(char.ToLowerInvariant(input[0]));
 
-        bool wasUpperCase = true;
-
         for (int i = 1; i < input.Length; i++)
         {
             char currentChar = input[i];
 
-            if (currentChar is Delimiters.Underscore or Delimiters.Dash or Delimiters.Dot)
+            if (currentChar is Delimiters.Underscore or Delimiters.Dash or Delimiters.Dot or Delimiters.Space)
             {
                 snakeCaseStrBuilder.Append(char.ToUpperInvariant(input[++i]));
 
                 continue;
             }
 
-            if (char.IsUpper(currentChar) && !wasUpperCase)
-                snakeCaseStrBuilder.Append(currentChar);
-            else
-                snakeCaseStrBuilder.Append(char.ToLowerInvariant(currentChar));
-
-            wasUpperCase = char.IsUpper(currentChar);
+            snakeCaseStrBuilder.Append(char.IsUpper(currentChar) ? currentChar : char.ToLowerInvariant(currentChar));
         }
 
         return snakeCaseStrBuilder.ToString();
@@ -122,7 +115,7 @@ public static class CamelCaseConverter
 
         for (int index = 1; index < input.Length; index++)
         {
-            if (input[index] is Delimiters.Dash or Delimiters.Underscore or Delimiters.Dot) return false;
+            if (input[index] is Delimiters.Dash or Delimiters.Underscore or Delimiters.Dot or Delimiters.Space) return false;
         }
 
         return true;
